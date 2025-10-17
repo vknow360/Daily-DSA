@@ -13,10 +13,10 @@ class Solution {
 public:
     void reverseInorder(TreeNode* root, int &sum){
         if(!root) return;
-        inorder(root->right, sum);
+        reverseInorder(root->right, sum);
         sum = root->val + sum;
         root->val = sum;
-        inorder(root->left, sum);
+        reverseInorder(root->left, sum);
     }
     
     TreeNode* bstToGst(TreeNode* root) {
