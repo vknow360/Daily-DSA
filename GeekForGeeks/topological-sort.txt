@@ -1,0 +1,37 @@
+class Solution {
+  public:
+    void DFS(vector<vector<int>>& adj, int u, vector<bool>& visited, stack<int>& st){
+        visited[u] = true;
+        
+        for(int v : adj[u]){
+            if(!visited[v]) DFS(adj, v, visited, st);
+        }
+        st.push(u);
+        
+    }
+    vector<int> topoSort(int V, vector<vector<int>>& edges) {
+        // code here
+        vector<vector<int>> adj(V, vector<int>());
+        for(vector<int> vec : edges) {
+            int u = vec[0], v = vec[1];
+            adj[u].push_back(v);
+        }
+        
+        vector<bool> visited(V, false);
+        stack<int> st;
+        
+        for(int i = 0; i < V; i++){
+            if(!visited[i]) DFS(adj, i, visited, st);
+        }
+        
+        vector<int> topo;
+        while(!st.empty()){
+            int i = st.top();
+            st.pop();
+            
+            topo.push_back(i);
+        }
+        
+        return topo;
+    }
+};
