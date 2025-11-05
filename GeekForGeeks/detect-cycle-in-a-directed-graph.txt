@@ -11,6 +11,40 @@ class Solution {
         inRecursion[u] = false;
         return false;
     }
+    
+    bool isCycleBFS(int V, vector<vector<int>>& adj){
+        //Kahn's Algorithm
+        vector<int> indegree(V, 0);
+        for(int i = 0; i < V; i++){
+            for(int v : adj[i]) {
+                indegree[v]++;
+            }
+        }
+        
+        queue<int> q;
+        
+        for(int i = 0; i < V; i++){
+            if(indegree[i] == 0) {
+                q.push(i);
+            }
+        }
+        
+        int count = 0;
+        while(!q.empty()){
+            int fr = q.front();
+            q.pop();
+            count++;
+            for(int v : adj[fr]){
+                indegree[v]--;
+                if(indegree[v] == 0){
+                    q.push(v);
+                }
+            }
+        }
+        
+        return count != V;
+    }
+    
     bool isCyclic(int V, vector<vector<int>> &edges) {
         // code here
         vector<vector<int>> adj(V, vector<int>());
@@ -19,13 +53,15 @@ class Solution {
             adj[u].push_back(v);
         }
         
-        vector<bool> visited(V, false);
-        vector<bool> inRecursion(V, false);
+        // vector<bool> visited(V, false);
+        // vector<bool> inRecursion(V, false);
         
-        for(int i = 0; i < V; i++){
-            if(!visited[i] && isCycleDFS(adj, i, visited, inRecursion)) return true;
-        }
+        // for(int i = 0; i < V; i++){
+        //     if(!visited[i] && isCycleDFS(adj, i, visited, inRecursion)) return true;
+        // }
         
-        return false;
+        //return false;
+        
+        return isCycleBFS(V, adj);
     }
 };
