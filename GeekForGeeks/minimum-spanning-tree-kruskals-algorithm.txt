@@ -8,8 +8,8 @@ class Solution {
         return parent[u] = Find(parent[u]);
     }
     void Union(int u, int v){
-        int u_parent = parent[u];
-        int v_parent = parent[v];
+        int u_parent = Find(u);
+        int v_parent = Find(v);
         
         if(u_parent == v_parent) return;
         
@@ -19,6 +19,7 @@ class Solution {
             parent[u_parent] = v_parent;
         }else {
             parent[v_parent] = u_parent;
+            rank[u_parent]++;
         }
     }
     int kruskalsMST(int V, vector<vector<int>> &edges) {
